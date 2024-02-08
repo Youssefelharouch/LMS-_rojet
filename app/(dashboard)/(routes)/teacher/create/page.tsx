@@ -4,6 +4,7 @@
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import axios from 'axios'
 
 import { Button } from "@/components/ui/button"
 import {
@@ -17,12 +18,15 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
+import toast from "react-hot-toast"
 
 const formSchema = z.object({
     title: z.string().min(1,{message:"Title is required"}),
   })
 
 const CreatePage = () => {
+    const router = useRouter();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -30,8 +34,13 @@ const CreatePage = () => {
         }
     })
     const {isSubmitting,isValid} = form.formState
-    const onSubmit = (values: z.infer<typeof formSchema>)=> {
-        console.log(values)
+    const onSubmit = async (values: z.infer<typeof formSchema>)=> {
+      try {
+        const response = await axios.post('/api/course',values);
+        router.push(`/teacher/courses/${response.data.id}`);
+      } catch (error) {
+        toast.error('something went wrong')
+      }
     }
 
 
