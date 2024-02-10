@@ -1,10 +1,15 @@
+interface CourseIdPageProps {
+    params: {
+        courseId: string;
+    };
+}
 
-function CourseIdPage() {
-  return (
-    <div>
-      Course Id Page
-    </div>
-  )
+function CourseIdPage({ params }: CourseIdPageProps ) {
+    return (
+        <div>
+            Course Id Page params : {params.courseId}
+        </div>
+    )
 }
 
 export default CourseIdPage

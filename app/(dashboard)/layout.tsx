@@ -1,4 +1,4 @@
-import {Navbar} from "./_components/Navbar";
+import {Navbar} from "./_components/navbar";
 import { Sidebar } from "./_components/sidebar";
 const DashboardLayout = (
   { children }:
@@ -12,7 +12,7 @@ const DashboardLayout = (
       <div className="hidden md:flex h-full w-56 flex-col fixed inset-y-0 z-50">
         <Sidebar />
       </div>
-      <main className="md:pl-56 h-full">
+      <main className="  pt-[80px] md:pl-56 h-full">
       {children}
       </main>
  
