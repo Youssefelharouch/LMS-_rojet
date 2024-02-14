@@ -4,7 +4,7 @@ import { auth } from "@clerk/nextjs";
 import { LayoutDashboard } from "lucide-react";
 import { redirect } from "next/navigation";
 import { boolean } from "zod";
-import TitleForm from "./_components/title-form";
+import {TitleForm} from "./_components/title-form";
 
 
 interface CourseIdPageProps {
@@ -56,7 +56,7 @@ async function CourseIdPage({ params }: CourseIdPageProps) {
                         <h2 className="text-xl">Customize your course</h2>
                     </div>
                     <TitleForm
-                    initialdata = {course} 
+                    initialData = {course} 
                     courseId = {course.id}
                     />
                 </div>
