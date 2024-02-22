@@ -7,6 +7,7 @@ import { boolean } from "zod";
 import {TitleForm} from "./_components/title-form";
 import DescriptionForm from "./_components/description-form";
 import ImageForm from "./_components/image-form";
+import CategoryForm from "./_components/category-form";
 
 
 interface CourseIdPageProps {
@@ -22,6 +23,14 @@ async function CourseIdPage({ params }: CourseIdPageProps) {
             id: params.courseId
         }
     })
+    
+    const category = await db.category.findMany({
+        orderBy: {
+            name: "asc"
+        }
+    })
+    console.log(category);
+
     if (!user) {
         return redirect('/');
     }
@@ -69,6 +78,16 @@ async function CourseIdPage({ params }: CourseIdPageProps) {
                     initialData = {course} 
                     courseId = {course.id}
                     />
+                    <CategoryForm
+                    initialData = {course} 
+                    courseId = {course.id}
+                    options={category.map((cat) => {
+                        return {label:cat.name,value:cat.id}
+                    }
+                    )}
+                 
+                    />
+                   
                 </div>
             </div>
         </div>

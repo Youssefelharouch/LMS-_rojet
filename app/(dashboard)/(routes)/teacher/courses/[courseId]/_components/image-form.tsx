@@ -2,24 +2,18 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
+import { useRouter } from 'next/navigation';
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { useState } from 'react';
 import { ImageIcon, Pencil, PlusCircle } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { cn } from '@/lib/utils';
-import { Textarea } from '@/components/ui/textarea';
+
 import { Course } from '@prisma/client';
 import Image from 'next/image';
 import { FileUpload } from '@/components/file-upload';
+
 
 type ImageFormProps = {
   initialData: Course,
@@ -39,13 +33,16 @@ const ImageForm = ({ initialData, courseId }: ImageFormProps) => {
       imageUrl: initialData?.imageUrl || ""
     }
   })
-  const { isSubmitting, isValid } = form.formState
+  const router = useRouter();
+
   const [isEditing, setIsEditing] = useState(false);
   const toggleEdit = () => setIsEditing((current) => !current);
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       axios.patch(`/api/courses/${courseId}`, values);
+      toggleEdit();
       toast.success("Course updated");
+      router.refresh();
     } catch (error) {
       console.log(error)
       toast.error("Something went wrong");
@@ -60,12 +57,7 @@ const ImageForm = ({ initialData, courseId }: ImageFormProps) => {
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing && (
             <>Cancel</>
-          )} {!isEditing && initialData.imageUrl && (
-            <>
-              <Pencil className="h-4 w-4 mr-2" />
-              Edit Image
-            </>
-          )}
+          )} 
           {
             !isEditing && !initialData.imageUrl && (
               <>
@@ -78,6 +70,9 @@ const ImageForm = ({ initialData, courseId }: ImageFormProps) => {
           {
             !isEditing && initialData.imageUrl && (
               <>
+              
+              <Pencil className="h-4 w-4 mr-2" />
+
                 Change picture
               </>
             )
