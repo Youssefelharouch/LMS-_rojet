@@ -11,11 +11,13 @@ export async function PATCH(req: Request, { params }: paramsType) {
     const { userId } = auth();
     const { courseId } = params;
     const values = await req.json();
+    console.log(values)
+
     if (!userId) return new NextResponse("Unautorized", { status: 401 });
     const course = await db.course.update({
       where: {
         id: courseId,
-        userId,
+        userId:userId,
       },
       data: { ...values },
     });
