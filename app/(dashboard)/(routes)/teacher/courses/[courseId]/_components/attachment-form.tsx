@@ -1,17 +1,15 @@
 "use client"
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+
 import * as z from 'zod'
 import { useRouter } from 'next/navigation';
 
 import { Button } from "@/components/ui/button";
 import { useState } from 'react';
-import { File, ImageIcon, Loader2, Pencil, PlusCircle, X } from 'lucide-react';
+import { File, Loader2, Pencil, PlusCircle, X } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
 import { Attachment, Course } from '@prisma/client';
-import Image from 'next/image';
 import { FileUpload } from '@/components/file-upload';
 
 
@@ -36,8 +34,9 @@ const AttachmentForm = ({ initialData, courseId }: AttachmentFormProps) => {
     try {
       axios.post(`/api/courses/${courseId}/attachments`, values);
       toggleEdit();
-      toast.success("Course updated");
       router.refresh();
+      toast.success("attachment added");
+      
     } catch (error) {
       console.log(error)
       toast.error("Something went wrong");
@@ -49,6 +48,7 @@ const AttachmentForm = ({ initialData, courseId }: AttachmentFormProps) => {
       setDeletingId(id)
       await axios.delete(`/api/courses/${courseId}/attachments/${id}`);
       toast.success("attachment deleted")
+      router.refresh();
     }
     catch (error) {
       toast.error("Something went wrong")

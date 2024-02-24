@@ -4,7 +4,7 @@ import { NextResponse } from "next/server"
 import { db } from "@/prisma/db";
 export async function POST(req:Request) {
     try {
-        const {userId} = auth();
+        const { userId } = auth();
         const {title} = await req.json();
         if(!userId){
             return new NextResponse("Unauthorized",{status:401})
